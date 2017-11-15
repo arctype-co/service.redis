@@ -9,10 +9,13 @@
 
 (def Config
   {:host S/Str
-   :port S/Int
+   (S/optional-key :port) S/Int
    (S/optional-key :password) S/Str
    (S/optional-key :timeout-ms) S/Int
-   (S/optional-key :db) S/Int })
+   (S/optional-key :db) S/Int})
+
+(def default-config
+  {:port 6379})
 
 (defmacro wcar
   [this & body]
@@ -52,7 +55,8 @@
 (S/defn create
   [resource-name :- S/Str
    config :- Config]
-  (resource/make-resource
-    (map->RedisClient
-      {:config config})
-    resource-name))
+  (let [config (merge default-config config)]
+    (resource/make-resource
+      (map->RedisClient
+        {:config config})
+      resource-name)))
