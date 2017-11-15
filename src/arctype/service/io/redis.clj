@@ -53,7 +53,7 @@
   )
 
 (S/defn create
-  [resource-name :- S/Str
+  [resource-name
    config :- Config]
   (let [config (merge default-config config)]
     (resource/make-resource
