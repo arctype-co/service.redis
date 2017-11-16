@@ -1,5 +1,6 @@
 (ns ^{:doc "Redis client driver using Carmine"}
   arctype.service.io.redis
+  (:refer-clojure :exclude [keys sync eval set type time get sort])
   (:require
     [clojure.tools.logging :as log]
     [schema.core :as S]
@@ -32,7 +33,7 @@
     (carmine/with-new-pubsub-listener
       pubsub-conn-spec
       channel-handlers
-      (doseq [channel (keys channel-handlers)]
+      (doseq [channel (clojure.core/keys channel-handlers)]
         (log/debug {:message "Subscribing to redis pubsub channel"
                     :channel channel})
         (carmine/subscribe channel)))))
