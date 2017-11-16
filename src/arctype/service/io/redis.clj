@@ -5,6 +5,7 @@
     [schema.core :as S]
     [sundbry.resource :as resource]
     [taoensso.carmine :as carmine]
+    [taoensso.carmine.commands :as commands]
     [arctype.service.protocol :refer :all]))
 
 (def Config
@@ -22,6 +23,8 @@
   `(carmine/wcar 
      (:conn ~this)
      ~@body))
+
+(commands/defcommands)
 
 (defn new-pubsub-listener
   [{{spec :spec} :conn :as this} channel-handlers] 
